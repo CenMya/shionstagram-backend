@@ -1,0 +1,23 @@
+{
+  "name": "shionstagram-backend",
+  "version": "1.0.0",
+  "description": "Shionstagram backend project",
+  "main": "src/index.js",
+  "repository": "github.com/CenMya/shionstagram-backend",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "aws-sdk": "^2.983.0",
+    "dotenv": "^10.0.0",
+    "fastify": "^3.20.2",
+    "fastify-file-upload": "^3.0.0",
+    "fastify-postgres": "^3.6.0",
+    "node-pg-migrate": "^5.10.0",
+    "pg": "^8.7.1",
+    "uuid": "^8.3.2"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "migrate": "node-pg-migrate -f ./config/db.json"
+  }
+}
