@@ -17,7 +17,7 @@
     "uuid": "^8.3.2"
   },
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node index.js",
     "migrate": "node-pg-migrate -f ./config/db.json"
   }
 }
