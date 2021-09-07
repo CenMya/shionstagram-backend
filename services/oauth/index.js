@@ -5,3 +5,5 @@ async function routes (fastify, options) {
         fastify.log.info(request.session.grant);
     });
 }
+
+module.exports = routes;

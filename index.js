@@ -40,6 +40,7 @@ fastify.register(require('fastify-postgres'), {
 // Register routes here
 fastify.register(require('./services/message'));
 fastify.register(require('./services/image'));
+fastify.register(require('./services/oauth'));
 
 fastify.get('/', (request, reply) => {
     reply.send();
