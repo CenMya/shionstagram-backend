@@ -21,42 +21,52 @@ async function routes (fastify, options) {
 
         const image = request.raw.files.image;
 
-        const onConnect = (err, client, release) => {
-            if(err) return reply.send(err);
+        if(image.mimetype.includes('image') && image.size > 5000000) {
+            const onConnect = (err, client, release) => {
+                if(err) return reply.send(err);
 
-            const body = request.body;
-            const uuid = uuidv4();
+                const uuid = uuidv4();
 
-            var params = {
-                Bucket: "shionstagram-spaces",
-                Key: "",
-                Body: "",
-                ACL: "private",
-            };
-
-            params.Body = bufferToStream(image.data);
-            const key = `${uuid}-${image.name}`;
-            params.Key = key;
-
-            spaces.upload(params, (err, data) => {
-                if (err) {
-                    console.log('Error', err);
-                } if (data) {
-                    console.log('Upload success', data.Location);
-                    client.query(
-                        'INSERT INTO images (key, location) VALUES ($1, $2) RETURNING id, key, location', [key, data.Location],
-                        function onResult (err, result) {
-                            release();
-                            reply.send(err || result);
-                        }
-                    );
+                var params = {
+                    Bucket: "shionstagram-spaces",
+                    Key: "",
+                    Body: "",
+                    ACL: "private",
+                };
+                
+                let suffix;
+                if(image.mimetype === 'image/jpeg' || image.mimetype === 'image/png' || image.mimetype === 'image/gif') {
+                    suffix = image.mimetype.split('/')[1];
+                } else {
+                    return reply.code(415).send('Unsupported file. Supported: image/jpeg, image/png, image/gif');
                 }
-            });
+
+                params.Body = bufferToStream(image.data);
+                const key = `${uuid}.${suffix}`;
+                params.Key = key;
+
+                spaces.upload(params, (err, data) => {
+                    if (err) {
+                        console.log('Error', err);
+                    } if (data) {
+                        console.log('Upload success', data.Location);
+                        client.query(
+                            'INSERT INTO images (key, location) VALUES ($1, $2) RETURNING id, key, location', [key, data.Location],
+                            function onResult (err, result) {
+                                release();
+                                reply.send(err || result);
+                            }
+                        );
+                    }
+                });
 
 
         };
 
         fastify.pg.connect(onConnect);
+
+        }
+
     });
 }
 

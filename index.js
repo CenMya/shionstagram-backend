@@ -4,8 +4,28 @@ const fastify = require('fastify')({
     logger: true
 });
 
+
+const cookie = require('fastify-cookie');
+const session = require('@fastify/session');
+const grant = require('grant').fastify();
+
 // Extenral plugins
 fastify.register(require('fastify-file-upload'));
+fastify.register(cookie)
+    .register(session, {secret: `${process.env.SESSION_SECRET}`, cookie: {secure: false}})
+    .register(grant({
+        "defaults": {
+            "origin": "https://shionstagram.com",
+            "transport": "session",
+            "state": true
+        },
+        "discord": {
+            "key": process.env.DISCORD_KEY,
+            "secret": process.env.DISCORD_SECRET,
+            "scope": ["identity", "guilds"],
+            "callback": "/oauth",
+        }
+    }));
 fastify.register(require('fastify-postgres'), {
     "user": process.env.DB_USER,
     "password": process.env.DB_PASSWORD,

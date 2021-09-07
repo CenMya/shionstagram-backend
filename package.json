@@ -6,19 +6,22 @@
   "license": "MIT",
   "private": true,
   "engines": {
-    "node": "16.5.0",
-    "npm": "7.20.1"
+    "node": "16.x",
+    "npm": "7.x"
   },
   "repository": {
     "type": "git",
     "url": "github.com/CenMya/shionstagram-backend"
   },
   "dependencies": {
+    "@fastify/session": "^6.1.1",
     "aws-sdk": "^2.983.0",
     "dotenv": "^10.0.0",
     "fastify": "^3.20.2",
+    "fastify-cookie": "^5.3.1",
     "fastify-file-upload": "^3.0.0",
     "fastify-postgres": "^3.6.0",
+    "grant": "^5.4.17",
     "node-pg-migrate": "^5.10.0",
     "pg": "^8.7.1",
     "uuid": "^8.3.2"
