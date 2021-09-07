@@ -15,7 +15,7 @@ fastify.register(cookie)
     .register(session, {secret: `${process.env.SESSION_SECRET}`, cookie: {secure: false}})
     .register(grant({
         "defaults": {
-            "origin": "https://shionstagram.com",
+            "origin": "https://shionstagram.com/api",
             "transport": "session",
             "state": true
         },
