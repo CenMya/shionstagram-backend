@@ -18,14 +18,14 @@ fastify.register(require('fastify-postgres'), {
 });
 
 // Register routes here
-fastify.register(require('./services/message'));
-fastify.register(require('./services/image'));
+fastify.register(require('./src/services/message'));
+fastify.register(require('./src/services/image'));
 
 fastify.get('/', (request, reply) => {
     reply.send();
 });
 
-fastify.listen(3000, (err, address) => {
+fastify.listen(process.env.PORT || 3000, (err, address) => {
 
     if (err) {
         fastify.log.error(err);
