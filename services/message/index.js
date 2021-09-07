@@ -1,4 +1,4 @@
-const spaces = require('../../spaces');
+const spaces = require('../spaces');
 
 async function routes (fastify, options) {
     fastify.get('/messages', (request, reply) => {

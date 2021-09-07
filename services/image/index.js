@@ -1,4 +1,4 @@
-const spaces = require('../../spaces');
+const spaces = require('../spaces');
 const uuidv4 = require('uuid').v4;
 
 const { Readable } = require('stream');
