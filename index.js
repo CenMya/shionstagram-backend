@@ -18,8 +18,8 @@ fastify.register(require('fastify-postgres'), {
 });
 
 // Register routes here
-fastify.register(require('./src/services/message'));
-fastify.register(require('./src/services/image'));
+fastify.register(require('./services/message'));
+fastify.register(require('./services/image'));
 
 fastify.get('/', (request, reply) => {
     reply.send();
