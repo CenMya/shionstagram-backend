@@ -22,7 +22,7 @@ fastify.register(require('./services/message'));
 fastify.register(require('./services/image'));
 
 fastify.get('/', (request, reply) => {
-    reply.send({hello: 'world'});
+    reply.send();
 });
 
 fastify.listen(3000, (err, address) => {
