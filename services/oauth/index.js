@@ -7,17 +7,19 @@ async function routes (fastify, options) {
         const sessionGrant = request.session.grant.response;
 
         try {
-            const discordResponse = await got('https://discord.com/api/v9/users/@me', {
+            got('https://discord.com/api/v9/users/@me', {
                 headers: {
                     'Authorization': `${sessionGrant.token_type}: ${sessionGrant.access_token}`,
                 },
             });
 
+
+            const [discordResponse, discordUser] = await  Promise.all(discordResponse, discordResponse.json());
+
             if(!discordResponse.statusCode !== 200) {
                 throw Error(`Discord authentication failed with code ${discordResponse.status}`);
             }
 
-            const discordUser = await discordResponse.json();
 
             fastify.log.info(discordUser);
 
