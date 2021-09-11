@@ -18,6 +18,9 @@ async function routes (fastify, options) {
 
             const [discordResponse, discordUser] = await  Promise.all([discordPromise, discordBodyPromise]);
 
+            fastify.log.info(discordResponse);
+            fasity.log.info(discordUser);
+
             if(!discordResponse.statusCode !== 200) {
                 throw Error(`Discord authentication failed with code ${discordResponse.status}`);
             }
