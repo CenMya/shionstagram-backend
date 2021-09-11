@@ -22,8 +22,7 @@ fastify.register(cookie)
         "discord": {
             "key": process.env.DISCORD_KEY,
             "secret": process.env.DISCORD_SECRET,
-            "scope": ["identify"],
-            "callback": "/api/oauth"
+            "scope": ["identify"]
         }
     }));
 fastify.register(require('fastify-postgres'), {
