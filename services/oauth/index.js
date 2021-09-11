@@ -14,7 +14,7 @@ async function routes (fastify, options) {
             });
             const discordBodyPromise = discordPromise.json();
 
-            const [discordResponse, discordUser] = await  Promise.all([discordPromise, discordBodyPromise];
+            const [discordResponse, discordUser] = await  Promise.all([discordPromise, discordBodyPromise]);
 
             if(!discordResponse.statusCode !== 200) {
                 throw Error(`Discord authentication failed with code ${discordResponse.status}`);
