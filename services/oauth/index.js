@@ -1,30 +1,28 @@
 const tokenStore = require('../tokenStore');
-const got = require('got');
+const axios = require('axios');
 
 async function routes (fastify, options) {
     fastify.get('/oauth', async (request, reply) => {
 
         const sessionGrant = request.session.grant.response;
 
-        const headers = {
-            'Authorization': `Bearer ${sessionGrant.access_token}`,
-        };
-
-        fastify.log.info(headers);
-
         try {
-            const discordPromise = got('https://discord.com/api/v9/users/@me', {headers});
-            const discordBodyPromise = discordPromise.json();
 
-            const [discordResponse, discordUser] = await  Promise.all([discordPromise, discordBodyPromise]);
+            const discordResponse = await axios(
+                {
+                    method: 'get',
+                    url: 'https://discord.com/api/v9/users/@me',
+                    headers: {
+                        Authorization: `Bearer ${sessionGrant.access_token}`
+                    }
+                    
+            });
 
-            fastify.log.info(discordResponse);
-            fasity.log.info(discordUser);
-
-            if(!discordResponse.statusCode !== 200) {
+            if(discordResponse.status !== 200) {
                 throw Error(`Discord authentication failed with code ${discordResponse.status}`);
             }
 
+            const discordUser = discordResponse.data;
 
             fastify.log.info(discordUser);
 
