@@ -24,7 +24,7 @@ async function routes (fastify, options) {
             if (err) return reply.send(err);
 
             client.query(
-                'INSERT INTO messages (text, image) VALUES ($1, $2) RETURNING id, image', [request.body.text, request.body.image],
+                'INSERT INTO messages (text, image, approved) VALUES ($1, $2, true) RETURNING id, image', [request.body.text, request.body.image],
                 function onResult (err, result) {
                     release();
                     reply.send(err || result);
