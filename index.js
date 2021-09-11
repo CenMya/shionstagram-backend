@@ -22,7 +22,7 @@ fastify.register(cookie)
         "discord": {
             "key": process.env.DISCORD_KEY,
             "secret": process.env.DISCORD_SECRET,
-            "scope": ["identity"],
+            "scope": ["identify"],
             "callback": "/oauth"
         }
     }));
