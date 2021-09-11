@@ -40,7 +40,7 @@ async function routes (fastify, options) {
 
                         console.log(result);
 
-                        const isAdmin = result.rows[0][0];
+                        const isAdmin = result.rows[0].admin;
 
                         if(isAdmin) {
                             const tokenObj = tokenStore.registerUser(discordUser.id, isAdmin);
