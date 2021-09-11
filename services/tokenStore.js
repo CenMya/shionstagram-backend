@@ -9,7 +9,9 @@ const registerUser = (discordUserId, admin) => {
             createdAt: new Date(),
         }
 
-        inMemoryTokenStore.append(token);                       
+        inMemoryTokenStore.append(token);
+        
+        return token;
 }
 
 

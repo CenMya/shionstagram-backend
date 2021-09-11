@@ -44,8 +44,11 @@ async function routes (fastify, options) {
                         const isAdmin = result.rows[0][0];
 
                         if(isAdmin) {
-                            tokenStore.registerUser(discordUser.id, isAdmin);
+                            const token = tokenStore.registerUser(discordUser.id, isAdmin);
+                            return reply.send(token);
                         }
+
+                        throw Error('User is not an admin');
                     }
                 );
             }
