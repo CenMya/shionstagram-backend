@@ -30,7 +30,7 @@ async function routes (fastify, options) {
                 if (err) throw Error(`Database connection failed with ${err}`);
 
                 client.query(
-                    `SELECT admin FROM users WHERE "discordUserId"='$1'`, [discordUser.id],
+                    `SELECT admin FROM users WHERE "discordUserId"=$1`, [discordUser.id],
                     function onResult (err, result) {
                         release();
 
