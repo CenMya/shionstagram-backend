@@ -6,12 +6,14 @@ async function routes (fastify, options) {
 
         const sessionGrant = request.session.grant.response;
 
+        const headers = {
+            'Authorization': `${sessionGrant.token_type} ${sessionGrant.access_token}`,
+        };
+
+        fastify.log.info(headers);
+
         try {
-            const discordPromise = got('https://discord.com/api/v9/users/@me', {
-                headers: {
-                    'Authorization': `${sessionGrant.token_type} ${sessionGrant.access_token}`,
-                },
-            });
+            const discordPromise = got('https://discord.com/api/v9/users/@me', {headers});
             const discordBodyPromise = discordPromise.json();
 
             const [discordResponse, discordUser] = await  Promise.all([discordPromise, discordBodyPromise]);
