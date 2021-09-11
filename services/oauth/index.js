@@ -44,8 +44,8 @@ async function routes (fastify, options) {
                         const isAdmin = result.rows[0][0];
 
                         if(isAdmin) {
-                            const token = tokenStore.registerUser(discordUser.id, isAdmin);
-                            return reply.send(token);
+                            const tokenObj = tokenStore.registerUser(discordUser.id, isAdmin);
+                            return reply.redirect(`${process.env.ORIGIN}/admin?token=${tokenObj.token}`);
                         }
 
                         throw Error('User is not an admin');

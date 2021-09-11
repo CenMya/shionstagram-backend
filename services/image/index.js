@@ -59,8 +59,6 @@ async function routes (fastify, options) {
                         );
                     }
                 });
-
-
         };
 
         fastify.pg.connect(onConnect);
