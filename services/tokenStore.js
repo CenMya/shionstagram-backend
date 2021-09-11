@@ -6,7 +6,7 @@ const registerUser = (discordUserId, admin) => {
             discordUserId,
             admin,
             token: uuidv4(),
-            createdAt: new Date(),
+            createdAt: Date.now(),
         }
 
         inMemoryTokenStore.push(token);
