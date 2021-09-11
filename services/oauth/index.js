@@ -1,33 +1,27 @@
 const tokenStore = require('../tokenStore');
+const fetch = require('node-fetch');
 
 async function routes (fastify, options) {
     fastify.get('/oauth', async (request, reply) => {
 
         const sessionGrant = request.session.grant.response;
 
-        fastify.log.info(request.session);
-        fastify.log.info(request.session.grant);
-
-        const discordMeRequest = new Request('https://discord.com/api/v9/users/@me');
-
-        const requestHeaders = new Headers();
-        requestHeaders.append('Authorization', `${sessionGrant.token_type}: ${sessionGrant.access_token}`)
-
-        const requestInit = {
-            method: 'GET',
-            headers: requestHeaders,
-            mode: 'cors',
-            cache: 'no-cache',
-        };
-
         try {
-            const discordResponse = await fetch(discordMeRequest, requestInit);
+            const discordResponse = await fetch('https://discord.com/api/v9/users/@me', {
+                method: 'get',
+                headers: {
+                    'Authorization': `${sessionGrant.token_type}: ${sessionGrant.access_token}`,
+                },
+                mode: 'cors'
+            });
 
             if(!discordResponse.ok) {
                 throw Error(`Discord authentication failed with code ${discordResponse.status}`);
             }
 
-            const discordUser = discordResponse.json();
+            const discordUser = await discordResponse.json();
+
+            fastify.log.info(discordUser);
 
             const onConnect = (err, client, release) => {
                 if (err) throw Error(`Database connection failed: ${err}`);
