@@ -15,10 +15,13 @@ async function routes (fastify, options) {
             if (err) return reply.send(err);
 
             client.query(
-                'DELETE FROM messages WHERE id=$1', [messageId],
+                'DELETE FROM messages WHERE id=$1 RETURNING image', [messageId],
                 function onResult (err, result) {
-                    release();
-                    reply.send(err || result);
+
+                    client.query(
+                        'DELETE FROM images WHERE image=$1', [result.rows[0].image],
+                        (err, result) => reply.send(err || result)
+                    );
                 }
             );
         };

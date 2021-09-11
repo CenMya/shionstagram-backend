@@ -21,9 +21,9 @@ async function routes (fastify, options) {
 
         const image = request.raw.files.image;
 
-        if(image.mimetype.includes('image') && image.size > 5000000) {
+        if (image.mimetype.includes('image') && image.size < 5000000) {
             const onConnect = (err, client, release) => {
-                if(err) return reply.send(err);
+                if(err) return reply.code(500).send(err);
 
                 const uuid = uuidv4();
 
@@ -48,6 +48,7 @@ async function routes (fastify, options) {
                 spaces.upload(params, (err, data) => {
                     if (err) {
                         console.log('Error', err);
+                        reply.code(500).send(err);
                     } if (data) {
                         console.log('Upload success', data.Location);
                         client.query(
@@ -63,7 +64,10 @@ async function routes (fastify, options) {
 
         fastify.pg.connect(onConnect);
 
+        } else {
+            reply.code(415).send();
         }
+
 
     });
 }
