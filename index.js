@@ -16,13 +16,13 @@ fastify.register(cookie)
     .register(grant({
         "defaults": {
             "origin": "https://shionstagram.com/api",
-            "transport": "session",
-            "state": true
+            "transport": "session"
         },
         "discord": {
             "key": process.env.DISCORD_KEY,
             "secret": process.env.DISCORD_SECRET,
-            "scope": ["identify"]
+            "scope": ["identify"],
+            "callback": "/oauth",
         }
     }));
 fastify.register(require('fastify-postgres'), {
