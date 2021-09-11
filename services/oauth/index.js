@@ -13,7 +13,7 @@ async function routes (fastify, options) {
                 },
             });
 
-            if(!discordResponse.ok) {
+            if(!discordResponse.statusCode !== 200) {
                 throw Error(`Discord authentication failed with code ${discordResponse.status}`);
             }
 
