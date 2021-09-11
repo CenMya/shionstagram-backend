@@ -7,7 +7,7 @@ async function routes (fastify, options) {
             if(err) return reply.send(err);
 
             client.query(
-                'SELECT * FROM messages INNER JOIN images ON messages.image=images.id',
+                'SELECT messages.id as id, text, approved, images.location FROM messages LEFT JOIN images ON messages.image=images.id WHERE messages.approved=true',
                 function onResult (err, result) {
                     release();
                     reply.send(err || result);

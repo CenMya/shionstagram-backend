@@ -15,7 +15,7 @@ async function routes (fastify, options) {
             if (err) return reply.send(err);
 
             client.query(
-                'DELETE FROM messages WHERE id=$1', [messageId],
+                'UPDATE messages SET approved=false WHERE id=$1', [messageId],
                 function onResult (err, result) {
                     release();
                     reply.send(err || result);
