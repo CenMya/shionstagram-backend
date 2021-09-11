@@ -7,7 +7,7 @@ async function routes (fastify, options) {
         const sessionGrant = request.session.grant.response;
 
         const headers = {
-            'Authorization': `${sessionGrant.token_type} ${sessionGrant.access_token}`,
+            'Authorization': `Bearer ${sessionGrant.access_token}`,
         };
 
         fastify.log.info(headers);
