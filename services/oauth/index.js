@@ -9,7 +9,7 @@ async function routes (fastify, options) {
         try {
             const discordPromise = got('https://discord.com/api/v9/users/@me', {
                 headers: {
-                    'Authorization': `${sessionGrant.token_type}: ${sessionGrant.access_token}`,
+                    'Authorization': `${sessionGrant.token_type} ${sessionGrant.access_token}`,
                 },
             });
             const discordBodyPromise = discordPromise.json();
