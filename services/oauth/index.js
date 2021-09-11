@@ -27,15 +27,15 @@ async function routes (fastify, options) {
             fastify.log.info(discordUser);
 
             const onConnect = (err, client, release) => {
-                if (err) throw Error(`Database connection failed: ${err}`);
+                if (err) throw Error(`Database connection failed with ${err}`);
 
                 client.query(
-                    'SELECT admin FROM users WHERE discordUserId=$1', [discordUser.id],
+                    'SELECT admin FROM "users" WHERE discordUserId=$1', [discordUser.id],
                     function onResult (err, result) {
                         release();
 
                         if (err) {
-                            throw Error(`Database query failed with error: ${err}`);
+                            throw Error(`Database query failed with ${err}`);
                         }
 
                         const isAdmin = result.rows[0][0];
