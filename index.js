@@ -16,7 +16,8 @@ fastify.register(cookie)
     .register(grant({
         "defaults": {
             "origin": "https://shionstagram.com/api",
-            "transport": "session"
+            "transport": "session",
+            state: true,
         },
         "discord": {
             "key": process.env.DISCORD_KEY,
