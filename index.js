@@ -23,7 +23,7 @@ fastify.register(cookie)
             "key": process.env.DISCORD_KEY,
             "secret": process.env.DISCORD_SECRET,
             "scope": ["identify"],
-            "callback": "/oauth"
+            "callback": "/api/oauth"
         }
     }));
 fastify.register(require('fastify-postgres'), {
