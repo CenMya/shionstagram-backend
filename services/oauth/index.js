@@ -1,5 +1,5 @@
 const tokenStore = require('../tokenStore');
-const fetch = require('node-fetch');
+const got = require('got');
 
 async function routes (fastify, options) {
     fastify.get('/oauth', async (request, reply) => {
@@ -7,12 +7,10 @@ async function routes (fastify, options) {
         const sessionGrant = request.session.grant.response;
 
         try {
-            const discordResponse = await fetch('https://discord.com/api/v9/users/@me', {
-                method: 'get',
+            const discordResponse = await got('https://discord.com/api/v9/users/@me', {
                 headers: {
                     'Authorization': `${sessionGrant.token_type}: ${sessionGrant.access_token}`,
                 },
-                mode: 'cors'
             });
 
             if(!discordResponse.ok) {

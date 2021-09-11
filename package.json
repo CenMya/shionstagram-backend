@@ -22,8 +22,8 @@
     "fastify-cookie": "^5.3.1",
     "fastify-file-upload": "^3.0.0",
     "fastify-postgres": "^3.6.0",
+    "got": "^11.8.2",
     "grant": "^5.4.17",
-    "node-fetch": "^3.0.0",
     "node-pg-migrate": "^5.10.0",
     "pg": "^8.7.1",
     "uuid": "^8.3.2"
