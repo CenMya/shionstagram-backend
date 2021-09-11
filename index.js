@@ -9,13 +9,15 @@ const cookie = require('fastify-cookie');
 const session = require('@fastify/session');
 const grant = require('grant').fastify();
 
+const tokenStore = require('./services/tokenStore');
+
 // External plugins
 fastify.register(require('fastify-file-upload'));
 fastify.register(cookie)
     .register(session, {secret: process.env.SESSION_SECRET, cookie: {secure: false}})
     .register(grant({
         "defaults": {
-            "origin": "https://shionstagram.com/api",
+            "origin": `${process.env.ORIGIN}/api`,
             "transport": "session",
             state: true,
         },
@@ -37,10 +39,28 @@ fastify.register(require('fastify-postgres'), {
     }
 });
 
+// Admin authentication
+fastify.register(require('fastify-auth'));
+fastify
+    .decorate('verifyAdmin', (request, reply, done) => {
+        const token = request.body.token;
+
+        if(!token) {
+            return done(new Error('missing token'));
+        }
+
+        const isInvalid = !tokenStore.verifyToken(token);
+
+        if(isInvalid) return done(new Error('invalid token'));
+
+        return done();
+    });
+
 // Register routes here
 fastify.register(require('./services/message'));
 fastify.register(require('./services/image'));
 fastify.register(require('./services/oauth'));
+fastify.register(require('./services/admin'));
 
 fastify.get('/', (request, reply) => {
     reply.send();

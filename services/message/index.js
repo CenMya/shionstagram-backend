@@ -21,7 +21,7 @@ async function routes (fastify, options) {
     fastify.post('/message', (request, reply) => {
 
         const onConnect = (err, client, release) => {
-            if(err) return reply.send(err);
+            if (err) return reply.send(err);
 
             client.query(
                 'INSERT INTO messages (text, image) VALUES ($1, $2) RETURNING id, image', [request.body.text, request.body.image],

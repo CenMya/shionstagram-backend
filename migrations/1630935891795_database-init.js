@@ -2,8 +2,17 @@
 exports.shorthands = undefined;
 
 exports.up = pgm => {
-    pgm.dropTable('messages', {ifExists: true});
-    pgm.dropTable('images', {ifExists: true});
+    pgm.dropTable('messages', { ifExists: true });
+    pgm.dropTable('images', { ifExists: true });
+    pgm.dropTable('users', { ifExists: true });
+
+    pgm.createTable('users', {
+        id: 'id',
+        discordUserId: { type: 'varchar(50)', notNull: true, unique: true },
+        discordUserName: { type: 'varchar(250)', notNull: true },
+        admin: { type: 'boolean', notNull: true }
+    });
+    pgm.createIndex('users', 'discordUserId');
 
     pgm.createTable('images', {
         id: 'id',
@@ -30,7 +39,6 @@ exports.up = pgm => {
             default: pgm.func('current_timestamp'),
         }
     });
-
 };
 
 exports.down = pgm => {};
