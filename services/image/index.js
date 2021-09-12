@@ -31,7 +31,7 @@ async function routes (fastify, options) {
                     Bucket: "shionstagram-spaces",
                     Key: "",
                     Body: "",
-                    ACL: "private",
+                    ACL: "public-read",
                 };
                 
                 let suffix;
@@ -50,10 +50,10 @@ async function routes (fastify, options) {
                         console.log('Error', err);
                         reply.code(500).send(err);
                     } if (data) {
-                        console.log('Upload success', data.Location);
                         client.query(
-                            'INSERT INTO images (key, location) VALUES ($1, $2) RETURNING id, key, location', [key, data.Location],
+                            'INSERT INTO images (key, location) VALUES ($1, $2) RETURNING id, key, location', [key, `${process.env.SPACES_DOMAIN}/${data.key}`],
                             function onResult (err, result) {
+                                console.log('Upload success', result.rows[0].location);
                                 release();
                                 reply.send(err || result);
                             }
