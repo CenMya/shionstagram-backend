@@ -16,10 +16,8 @@ function bufferToStream(binary) {
 }
 
 async function routes (fastify, options) {
-
     fastify.post('/image', (request, reply) => {
-
-        const image = request.raw.files.image;
+        const image = request.body.file;
 
         if (image.mimetype.includes('image') && image.size < 5000000) {
             const onConnect = (err, client, release) => {

@@ -61,9 +61,23 @@ fastify.addHook('preHandler', function (req, reply, done) {
     if (!process.env.PORT) {
         reply.header("Access-Control-Allow-Origin", "*");
         reply.header("Access-Control-Allow-Methods", "*");
+        reply.header("Access-Control-Allow-Headers", "*");
     }
     done()
-  })
+});
+
+// Another CORS fix
+fastify.route({
+    method: 'OPTIONS',
+    url: '/*',
+    handler: async (request, reply) => {
+      reply.code(204)
+        .header('Content-Length', '0')
+        .header('Access-Control-Allow-Origin', '*')
+        .header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE')
+        .send()
+    }
+});
   
 
 // Register routes here
