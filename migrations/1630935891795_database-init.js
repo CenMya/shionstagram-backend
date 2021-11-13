@@ -27,7 +27,9 @@ exports.up = pgm => {
 
     pgm.createTable('messages', {
         id: 'id',
-        text: { type: 'varchar(10000)' },
+        type: { type: 'varchar(50)', notNull: true },
+        message: { type: 'varchar(280)' },
+        twitter: { type: 'varchar(300)' },
         image: {
             type: 'integer',
             references: '"images"',

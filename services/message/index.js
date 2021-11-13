@@ -7,10 +7,10 @@ async function routes (fastify, options) {
             if(err) return reply.send(err);
 
             client.query(
-                'SELECT messages.id as id, text, approved, images.location FROM messages LEFT JOIN images ON messages.image=images.id WHERE messages.approved=true',
+                'SELECT messages.id as id, message, approved, images.location FROM messages LEFT JOIN images ON messages.image=images.id WHERE messages.approved=true',
                 function onResult (err, result) {
                     release();
-                    reply.send(err || result);
+                    reply.send(err || result.rows);
                 }
             )
         };
@@ -24,10 +24,10 @@ async function routes (fastify, options) {
             if (err) return reply.send(err);
 
             client.query(
-                'INSERT INTO messages (text, image, approved) VALUES ($1, $2, true) RETURNING id, image', [request.body.text, request.body.image],
+                'INSERT INTO messages (message, image, type, twitter, approved) VALUES ($1, $2, $3, $4, true) RETURNING id, image, message, type, twitter, approved', [request.body.message, request.body.image, request.body.mediaType, request.body.twitter],
                 function onResult (err, result) {
                     release();
-                    reply.send(err || result);
+                    reply.send(err || result.rows[0]);
                 }
             );
         };
