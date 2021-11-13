@@ -28,8 +28,8 @@ exports.up = pgm => {
     pgm.createTable('messages', {
         id: 'id',
         type: { type: 'varchar(50)', notNull: true },
+        twitter: { type: 'varchar(300)', notNull: true },
         message: { type: 'varchar(280)' },
-        twitter: { type: 'varchar(300)' },
         image: {
             type: 'integer',
             references: '"images"',
@@ -45,6 +45,8 @@ exports.up = pgm => {
             notNull: true
         }
     });
+
+    pgm.addConstraint('messages', 'chk_null', 'check (message is not null or image is not null)');
 };
 
 exports.down = pgm => {};
