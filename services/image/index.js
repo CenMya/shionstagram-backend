@@ -36,10 +36,10 @@ const onConnectUploadToSpaces = (fastify, reply, image) => (err, client, release
     };
                 
     let suffix;
-    if(image.mimetype === 'image/jpeg' || image.mimetype === 'image/png' || image.mimetype === 'image/gif') {
+    if(image.mimetype === 'image/jpeg' || image.mimetype === 'image/png' || image.mimetype === 'image/gif' || image.mimetype === "image/apng") {
         suffix = image.mimetype.split('/')[1];
     } else {
-        return reply.code(415).send('Unsupported file. Supported: image/jpeg, image/png, image/gif');
+        return reply.code(415).send('Unsupported file. Supported: image/jpeg, image/png, image/gif', 'image/apng');
     }
 
     params.Body = bufferToStream(image.data);

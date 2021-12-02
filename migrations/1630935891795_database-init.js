@@ -29,7 +29,9 @@ exports.up = pgm => {
         id: 'id',
         type: { type: 'varchar(50)', notNull: true },
         twitter: { type: 'varchar(300)', notNull: true },
-        message: { type: 'varchar(280)' },
+        name: { type: 'varchar(50)', notNull: true },
+        location: { type: 'varchar(50)' },
+        message: { type: 'varchar(500)' },
         image: {
             type: 'integer',
             references: '"images"',
@@ -46,7 +48,6 @@ exports.up = pgm => {
         }
     });
 
-    pgm.addConstraint('messages', 'chk_null', 'check (message is not null or image is not null)');
 };
 
 exports.down = pgm => {};
