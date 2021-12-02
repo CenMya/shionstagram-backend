@@ -24,7 +24,7 @@ async function routes (fastify, options) {
             if (err) return reply.send(err);
 
             client.query(
-                'INSERT INTO messages (message, image, type, name, location, twitter, approved) VALUES ($1, $2, $3, $4, $5, $6, false) RETURNING id, image, message, type, name, location, twitter, approved', [request.body.message, request.body.image, request.body.mediaType, request.body.name, request.body.location, request.body.twitter],
+                'INSERT INTO messages (message, image, name, location, twitter, approved) VALUES ($1, $2, $3, $4, $5, false) RETURNING id, image, message, type, name, location, twitter, approved', [request.body.message, request.body.image, request.body.mediaType, request.body.name, request.body.location, request.body.twitter],
                 function onResult (err, result) {
                     release();
                     reply.send(err || result.rows[0]);

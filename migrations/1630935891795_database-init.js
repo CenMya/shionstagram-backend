@@ -27,16 +27,15 @@ exports.up = pgm => {
 
     pgm.createTable('messages', {
         id: 'id',
-        type: { type: 'varchar(50)', notNull: true },
         twitter: { type: 'varchar(300)', notNull: true },
         name: { type: 'varchar(50)', notNull: true },
         location: { type: 'varchar(50)' },
-        message: { type: 'varchar(500)' },
         image: {
             type: 'integer',
             references: '"images"',
             onDelete: 'cascade',
         },
+        message: { type: 'varchar(500)', notNull: true },
         createdAt: {
             type: 'timestamp',
             notNull: true,
